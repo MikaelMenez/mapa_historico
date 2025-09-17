@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload de Imagem e Texto</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Enviar Imagem e Texto</h1>
+        <form method="post" action="/submeter_pontos" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+            <div class="form-group">
+                <label for="texto">Texto:</label>
+                <input type="text" id="texto" name="texto" required>
+            </div>
+            <div class="form-group">
+                <label for="cord_x">Coordenada x:</label>
+                <input type=number id="cord_x" name="cord_x" required>
+            </div>
+            <div class="form-group">
+                <label for="cord_y">Coordenada y:</label>
+                <input type=number id="cord_y" name="cord_y" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="imagem">Imagem:</label>
+                <input type="file" id="imagem" name="imagem" accept="image/*" required>
+            </div>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>
