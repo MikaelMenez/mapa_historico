@@ -40,3 +40,17 @@ def atualizar_item(id:int,titulo:str,texto:str,imagem_path:str,data_criacao:str,
 def acessar_todos()->list:
     sql_command_handler.execute("SELECT * FROM pontos")
     return sql_command_handler.fetchall()
+def transformar_em_json(lista_tuplas):
+    lista_json = []
+    for item in lista_tuplas:
+        d = {
+            "id": item[0],
+            "titulo": item[1],
+            "texto": item[2],
+            "imagem_path": item[3],
+            "data_criacao": item[4],
+            "cord_x": item[5],
+            "cord_y": item[6]
+        }
+        lista_json.append(d)
+    return lista_json

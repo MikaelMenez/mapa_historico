@@ -7,6 +7,7 @@ from bancodedados import *
 from pathlib import Path
 import datetime
 import shutil
+import json
 
 mundo_map = folium.Map(zoom_start=3)
 create_table()
@@ -57,6 +58,14 @@ def adicionar_pontos(request:Request,titulo:str=Form(...),texto:str=Form(...),co
     adicionar_item(titulo=titulo,texto=texto,imagem_path=caminho_arquivo,data_criacao=data_criacao,cord_x=cord_x,cord_y=cord_y)
     
     return RedirectResponse(url="/sucesso",status_code=303)
+@app.get("/remove",response_class=HTMLResponse)
+def mostrar_remocao(request:Request):
+    return templates.TemplateResponse("remover_pontos.html",{"request":request})
+@app.get("/elementos")
+def elementos(request:Request):
+    lista=acessar_todos()
+    lista=transformar_em_json(lista)
+    return lista
 @app.get("/sucesso",response_class=HTMLResponse)
 def sucesso(request:Request,):
     return templates.TemplateResponse("sucesso.html",{"request":request})

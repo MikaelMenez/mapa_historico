@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <title>Remover elementos de uma lista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div class="container mx-auto p-4 max-w-3xl">
+    <h2 class="text-3xl font-bold mb-6">Lista de elementos</h2>
+    <div id="lista-elementos" class="space-y-4">
+        <!-- Os elementos serão renderizados aqui -->
+    </div>
+</div>
+
+<!-- Modal de confirmação -->
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-xl font-semibold text-red-600 mb-4">Confirmação de remoção</h3>
+        <p class="mb-6">Tem certeza que deseja remover este elemento?</p>
+        <div class="flex justify-end space-x-4">
+            <button id="cancelarRemover" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Não</button>
+            <button id="confirmarRemover" class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Sim</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let lista = [];
+
+function carregarLista() {
+    fetch('/elementos')
+        .then(response => response.json())
+        .then(data => {
+            lista = data;
+            renderizarLista();
+        })
+        .catch(() => {
+            alert('Erro ao carregar os elementos');
+        });
+}
+
+let elementoParaRemover = null;
+
+function renderizarLista() {
+    const container = document.getElementById('lista-elementos');
+    container.innerHTML = '';
+    lista.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between bg-white p-4 rounded shadow';
+        div.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <img src="${item.imagem_path}" alt="Imagem" class="w-16 h-16 object-cover rounded-lg border border-gray-200" />
+                <div>
+                    <div class="text-lg font-semibold text-gray-900">${item.titulo}</div>
+                    <div class="text-gray-600">${item.texto}</div>
+                    <div class="text-sm text-gray-400">${item.data_criacao}</div>
+                    <div class="text-xs text-gray-400">Coordenadas: (${item.cord_x}, ${item.cord_y})</div>
+                </div>
+            </div>
+            <button 
+                onclick="abrirModal(${idx})"
+                class="ml-4 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                Remover
+            </button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function abrirModal(idx) {
+    elementoParaRemover = idx;
+    document.getElementById('modal').classList.remove('hidden');
+}
+
+document.getElementById('cancelarRemover').addEventListener('click', () => {
+    elementoParaRemover = null;
+    document.getElementById('modal').classList.add('hidden');
+});
+
+document.getElementById('confirmarRemover').addEventListener('click', () => {
+    if (elementoParaRemover === null) return;
+
+    const item = lista[elementoParaRemover];
+
+    fetch(`/remover-elemento?id=${encodeURIComponent(item.id)}`, {
+        method: 'DELETE'
+    }).then(response => {
+        if (response.ok) {
+            lista.splice(elementoParaRemover, 1);
+            renderizarLista();
+        } else {
+            alert('Erro ao remover o elemento!');
+        }
+        elementoParaRemover = null;
+        document.getElementById('modal').classList.add('hidden');
+    }).catch(() => {
+        alert('Erro na requisição de remoção');
+        elementoParaRemover = null;
+        document.getElementById('modal').classList.add('hidden');
+    });
+});
+
+// Iniciar carregando a lista assim que a página estiver pronta
+carregarLista();
+</script>
+</body>
+</html>
