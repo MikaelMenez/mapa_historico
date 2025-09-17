@@ -32,7 +32,7 @@ def renderizar_mapa(request:Request):
         "usuario_logado": False
     }
     return templates.TemplateResponse("mapa_mundi.html",context)
-@app.get("/adicionar_pontos",response_class=HTMLResponse)
+@app.get("/add",response_class=HTMLResponse)
 def abrir_formulario(request:Request):
     return templates.TemplateResponse("adicionar_pontos.html",{"request":request})
 @app.post("/submeter_pontos",response_class=HTMLResponse)
