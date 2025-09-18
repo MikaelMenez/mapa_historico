@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_e38d42d062909ced8242a7dbb92b666d {
+                #map_1e2eb2f6087fd0b99211ddaac6fcfea6 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -54,19 +54,19 @@
 <body>
     
     
-            <div class="folium-map" id="map_e38d42d062909ced8242a7dbb92b666d" ></div>
+            <div class="folium-map" id="map_1e2eb2f6087fd0b99211ddaac6fcfea6" ></div>
         
 </body>
 <script>
     
     
-            var map_e38d42d062909ced8242a7dbb92b666d = L.map(
-                "map_e38d42d062909ced8242a7dbb92b666d",
+            var map_1e2eb2f6087fd0b99211ddaac6fcfea6 = L.map(
+                "map_1e2eb2f6087fd0b99211ddaac6fcfea6",
                 {
-                    center: [0.0, 0.0],
+                    center: [-20.0, -20.0],
                     crs: L.CRS.EPSG3857,
                     ...{
-  "zoom": 1,
+  "zoom": 2.5,
   "zoomControl": true,
   "preferCanvas": false,
 }
@@ -78,7 +78,7 @@
 
         
     
-            var tile_layer_87203bfc6c82f99d1b209822c643f0a8 = L.tileLayer(
+            var tile_layer_9867b415701f0a47b9215df21dc25be0 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -95,7 +95,58 @@
             );
         
     
-            tile_layer_87203bfc6c82f99d1b209822c643f0a8.addTo(map_e38d42d062909ced8242a7dbb92b666d);
+            tile_layer_9867b415701f0a47b9215df21dc25be0.addTo(map_1e2eb2f6087fd0b99211ddaac6fcfea6);
         
+    
+            tile_layer_9867b415701f0a47b9215df21dc25be0.addTo(map_1e2eb2f6087fd0b99211ddaac6fcfea6);
+        
+    
+            var marker_e3d40510cac606bf9f12694a9e1291a7 = L.marker(
+                [-20.57, 20.77],
+                {
+}
+            ).addTo(map_1e2eb2f6087fd0b99211ddaac6fcfea6);
+        
+    
+            var icon_75f0afbcb2d4dd0036d96c2522fe66ff = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightblue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_55a4787c393a71530b39330205a1ab12 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_54d279a3172d687863de4cd83df7e737 = $(`<div id="html_54d279a3172d687863de4cd83df7e737" style="width: 100.0%; height: 100.0%;"><img src=static/images/2025-09-18_djalmir.jpeg style="width:7vw; height:auto";/><b>teste1</b><br>apenas para testes<br><b>criado em 2025-09-18</b></div>`)[0];
+                popup_55a4787c393a71530b39330205a1ab12.setContent(html_54d279a3172d687863de4cd83df7e737);
+            
+        
+
+        marker_e3d40510cac606bf9f12694a9e1291a7.bindPopup(popup_55a4787c393a71530b39330205a1ab12)
+        ;
+
+        
+    
+    
+            marker_e3d40510cac606bf9f12694a9e1291a7.bindTooltip(
+                `<div>
+                     Clique para mais info
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e3d40510cac606bf9f12694a9e1291a7.setIcon(icon_75f0afbcb2d4dd0036d96c2522fe66ff);
+            
 </script>
 </html>

@@ -13,6 +13,7 @@
     </div>
 </div>
 
+
 <!-- Modal de confirmação -->
 <div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
@@ -25,20 +26,11 @@
     </div>
 </div>
 
-<script>
-let lista = [];
 
-function carregarLista() {
-    fetch('/elementos')
-        .then(response => response.json())
-        .then(data => {
-            lista = data;
-            renderizarLista();
-        })
-        .catch(() => {
-            alert('Erro ao carregar os elementos');
-        });
-}
+<script>
+let lista = {{ items | tojson }};
+
+console.log(lista);
 
 let elementoParaRemover = null;
 
@@ -58,7 +50,7 @@ function renderizarLista() {
                     <div class="text-xs text-gray-400">Coordenadas: (${item.cord_x}, ${item.cord_y})</div>
                 </div>
             </div>
-            <button 
+            <button
                 onclick="abrirModal(${idx})"
                 class="ml-4 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                 Remover
@@ -83,7 +75,7 @@ document.getElementById('confirmarRemover').addEventListener('click', () => {
 
     const item = lista[elementoParaRemover];
 
-    fetch(`/remover-elemento?id=${encodeURIComponent(item.id)}`, {
+    fetch(`/deletar/?id_item=${encodeURIComponent(item.id)}`, {
         method: 'DELETE'
     }).then(response => {
         if (response.ok) {
@@ -101,8 +93,7 @@ document.getElementById('confirmarRemover').addEventListener('click', () => {
     });
 });
 
-// Iniciar carregando a lista assim que a página estiver pronta
-carregarLista();
+renderizarLista();
 </script>
 </body>
 </html>

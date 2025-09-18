@@ -18,18 +18,40 @@
             </div>
             <div class="form-group">
                 <label for="cord_x">Coordenada x:</label>
-                <input type=number id="cord_x" name="cord_x" required>
+                <input type=number step="any" id="cord_x" name="cord_x" required>
             </div>
             <div class="form-group">
                 <label for="cord_y">Coordenada y:</label>
-                <input type=number id="cord_y" name="cord_y" required>
+                <input type=number step="any" id="cord_y" name="cord_y" required>
             </div>
             
             <div class="form-group">
                 <label for="imagem">Imagem:</label>
                 <input type="file" id="imagem" name="imagem" accept="image/*" required>
             </div>
-            
+            <label for="colors">Escolha uma cor:</label>
+                <select id="colors" name="cor">
+                <option value="red">vermelho</option>
+                <option value="blue">azul</option>
+                <option value="green">verde</option>
+                <option value="purple">roxo</option>
+                <option value="orange">laranja</option>
+                <option value="darkred">vermelho escuro</option>
+                <option value="lightred">vermelho claro</option>
+                <option value="beige">bege</option>
+                <option value="darkblue">azul escuro</option>
+                <option value="darkgreen">verde escuro</option>
+                <option value="cadetblue">azul cadete</option>
+                <option value="darkpurple">roxo escuro</option>
+                <option value="white">branco</option>
+                <option value="pink">rosa</option>
+                <option value="lightblue">azul claro</option>
+                <option value="lightgreen">verde claro</option>
+                <option value="gray">cinza</option>
+                <option value="black">preto</option>
+                <option value="lightgray">cinza claro</option>
+                </select>
+
             <button type="submit">Enviar</button>
         </form>
     </div>
