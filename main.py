@@ -9,19 +9,21 @@ import datetime
 import shutil
 import json
 
-mundo_map = folium.Map(location=[-20,-20],zoom_start=2.5)
+
 create_table()
 templates=Jinja2Templates(directory="templates")
-mundo_map.save("templates/mapa_mundi.html")
 app=FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/",response_class=HTMLResponse)
 def renderizar_mapa(request:Request):
+    mundo_map = folium.Map(location=[-20,-20],zoom_start=2.5)
+    mundo_map.save("templates/mapa_mundi.html")
+
     pontos = acessar_todos()
     for ponto in pontos:
         folium.Marker(
         location=[ponto[5], ponto[6]],
-        popup=f"<img src={ponto[3]} style=\"width:7vw; height:auto\";/><b>{ponto[1]}</b><br>{ponto[2]}<br><b>criado em {ponto[4]}</b>",
+        popup=f"<h1>{ponto[1]}</h1><img src={ponto[3]} style=\"width:auto; height:80vh\";/><h2>{ponto[2]}<h2><b>criado em {ponto[4]}</b>",
         tooltip="Clique para mais info",
         icon=folium.Icon(color=ponto[7])
         ).add_to(mundo_map)
@@ -37,7 +39,7 @@ def renderizar_mapa(request:Request):
 def abrir_formulario(request:Request):
     return templates.TemplateResponse("adicionar_pontos.html",{"request":request})
 @app.post("/submeter_pontos",response_class=HTMLResponse)
-def adicionar_pontos(request:Request,titulo:str=Form(...),texto:str=Form(...),cord_x:float=Form(...),cord_y:float=Form(...),imagem: UploadFile = File(...),cor:str=Form(...)):
+def adicionar_pontos(request:Request,titulo:str=Form(...),texto:str=Form(...),coordenadas:str=Form(...),imagem: UploadFile = File(...),cor:str=Form(...)):
     context={
         "request": request,  # OBRIGATÓRIO para Jinja2
         "nome": "Visitante",
@@ -55,6 +57,9 @@ def adicionar_pontos(request:Request,titulo:str=Form(...),texto:str=Form(...),co
     # Salvar o arquivo
     with open(caminho_arquivo, "wb") as buffer:
         shutil.copyfileobj(imagem.file, buffer)
+    coord=tratar_coordenadas(coordenadas)
+    cord_x=ajustar_coordenadas(coord[0])
+    cord_y=ajustar_coordenadas(coord[1])
     adicionar_item(titulo=titulo,texto=texto,imagem_path=caminho_arquivo,data_criacao=data_criacao,cord_x=cord_x,cord_y=cord_y,cor=cor)
         
     return RedirectResponse(url="/sucesso",status_code=303)

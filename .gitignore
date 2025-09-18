@@ -1,2 +1,3 @@
 .mapamundi/
 __pycache__/
+app.db

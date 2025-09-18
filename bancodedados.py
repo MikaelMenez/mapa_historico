@@ -56,3 +56,23 @@ def transformar_em_json(lista_tuplas):
         }
         lista_json.append(d)
     return lista_json
+def tratar_coordenadas(coordenadas:str)->list:
+    coordenadas=coordenadas.replace('\'',"-")
+    coordenadas=coordenadas.replace('″',"\"")
+    coordenadas=coordenadas.replace(" ","")
+    coordenadas=coordenadas.split(",")
+    return coordenadas
+def ajustar_coordenadas(coordenadas:str)->float:
+    cordx=int(coordenadas[0:coordenadas.index("°")])
+    cordx+=float(coordenadas[coordenadas.index("°")+1:coordenadas.index("-")])/60
+    cordx+=float(coordenadas[coordenadas.index("-")+1:coordenadas.index("\"")])/3600
+    if(coordenadas[len(coordenadas)-1]=='S' or coordenadas[len(coordenadas)-1]=='O'):
+        cordx*=-1
+    cordx=round(cordx,4)
+    return cordx
+coordenadas="45°26'15″N, 12°20'9″E"
+
+coord=tratar_coordenadas(coordenadas)
+cord_x=ajustar_coordenadas(coord[0])
+cord_y=ajustar_coordenadas(coord[1])
+print(cord_x,cord_y)
